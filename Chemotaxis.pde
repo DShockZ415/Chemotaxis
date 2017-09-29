@@ -1,66 +1,70 @@
 int x;
 int y;
+int z;
 Bacteria[] bob;
-Bacteria notbob;
  void setup()   
  {     
-   size(500,500);
+   size(800,800);
    background(0);
-   notbob=new Bacteria();
    bob=new Bacteria[5];  
    for(int i = 0; i < bob.length;i++)
   {
-    x=(int)(Math.random()*500);
-    y=(int)(Math.random()*500);
+    frameRate(60);
+    x=(int)(Math.random()*800);
+    y=(int)(Math.random()*800);
     bob[i] = new Bacteria();
   }
  }   
  void draw()   
  {
+   background(0);
    for(int i = 0; i < bob.length;i++)
    {
-     bob[i].jump();
+     bob[i].walk();
      bob[i].show();
+     if((bob[0].myX==bob[1].myX)||(bob[1].myX==bob[2].myX)||(bob[1].myX==bob[0].myX)||(bob[0].myX==bob[2].myX)||(bob[1].myX==bob[3].myX)||(bob[0].myX==bob[3].myX)||(bob[2].myX==bob[3].myX)||(bob[3].myX==bob[4].myX)||(bob[0].myX==bob[4].myX)||(bob[1].myX==bob[4].myX)||(bob[2].myX==bob[4].myX))
+     {
+       bob[i].sizex=bob[i].sizex+20;
+       bob[i].sizey=bob[i].sizey+20;
+     }
+     if(bob[i].sizex==600 && bob[i].sizey==600)
+     { 
+       background(bob[i].randomR,bob[i].randomG,bob[i].randomB);
+       noLoop();
+     }
    }
-   notbob.show2();
  }  
  class Bacteria    
  {     
    int myX,myY;
-   int randomR;
-   int randomGB;
+   int sizex,sizey;
+   int randomR,randomG,randomB;
    Bacteria()
    {
+     sizex=sizey=z=20;
      myX=x;
      myY=y;
-     randomR=(int)((Math.random()*173)+78);
-     randomGB=(int)(Math.random()*251);
+     randomR=(int)((Math.random()*201)+50);
+     randomG=(int)((Math.random()*201)+50);
+     randomB=(int)((Math.random()*201)+50);
    }
    void walk()
    {
-     myX=250;
-     myY=250;
-     myX=(int)((Math.random()*10)-5);
-     myY=(int)((Math.random()*10)-5);
-   }
-   void jump()
-   {
-     myX=(int)(Math.random()*500);
-     myY=(int)(Math.random()*500);
+     myX=myX+(int)((Math.random()*40)-20);
+     myY=myY+(int)((Math.random()*40)-20);
+     if(myX>800||myX<0)
+     {
+       myX=(int)(Math.random()*800);
+     }
+     if(myY>800||myY<0)
+     {
+       myY=(int)(Math.random()*800);
+     }
    }
    void show()
    {
-     fill(randomR,randomGB,randomGB);
-     ellipse(myX,myY,20,20);
-   }
-   void show2()
-   {
-     fill(0);
-     ellipse(250,250,110,110);
+     fill(randomR,randomG,randomB);
+     noStroke();
+     ellipse(myX,myY,sizex,sizey);
    }
  }  
-void mouseClicked()
-{
-  background(0);
-  redraw();
-}
